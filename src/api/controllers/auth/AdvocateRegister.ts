@@ -1,5 +1,5 @@
 import {Handler} from "express";
-import Advocate from "../../modals/auth/advocate";
+import Advocate from "../../models/auth/advocate";
 import bcrypt from "bcrypt"
 
 const advocateRegister: Handler =  async (req, res , next)=>{
@@ -20,8 +20,6 @@ const advocateRegister: Handler =  async (req, res , next)=>{
                 password: hashed,
                 securityQuestion: securityQuestion,
                 securityAnswer: securityAnswer,
-                personalDetails: { salutation:"" },
-                advocateBarDetails: { state:"" }
             });
             res.status(201).json({ message : `New user Created ${result}` ,  success: true , status : 201});        
         } catch (err) {
