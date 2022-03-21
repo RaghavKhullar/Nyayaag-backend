@@ -14,10 +14,9 @@ app.get('/', (_req, res) => {
 
 database();
 
-import AdvocateRoute from "./api/routes/AdvocateRoute"
-import ClientRoute from "./api/routes/ClientRoute"
-app.use("/advocate",AdvocateRoute)
-app.use("/clinet",ClientRoute)
+import UserRoute from "./api/routes/UserRoute"
+app.use("/auth",UserRoute)
+
 
 
 

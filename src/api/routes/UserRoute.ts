@@ -1,6 +1,6 @@
 import {Router} from "express";
-import { advocateRegister } from "../controllers/auth/AdvocateRegister";
-import { advocateLogin } from "../controllers/auth/AdvocateLogin"
+import { UserRegister } from "../controllers/auth/UserRegister";
+import { UserLogin } from "../controllers/auth/UserLogin"
 import {verifyOtp} from "../controllers/auth/VerifyOtp";
 import { ResendOTPVerification } from "../controllers/auth/ResendOTPVerification";
 
@@ -11,8 +11,8 @@ router.get('/login', (req,res) => {
     res.send("get route for advocate login")
 })
 
-router.post('/register',advocateRegister);
-router.post('/login',advocateLogin);
+router.post('/register',UserRegister);
+router.post('/login',UserLogin);
 router.post('/verifyOTP', verifyOtp)
 router.post("/resendOTPVerification",ResendOTPVerification)
 
