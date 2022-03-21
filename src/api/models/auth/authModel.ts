@@ -1,7 +1,7 @@
 import { Schema , model , Model } from "mongoose";
-import IAdvocate from "./Interface";
+import IAuth from "./InterfaceAuth";
 
-const AdvocateSchema: Schema = new Schema({
+const AuthSchema: Schema = new Schema({
     username: {
         type: String,
         required:true,
@@ -18,14 +18,11 @@ const AdvocateSchema: Schema = new Schema({
         type: String,
         required: true
     },
-    personalDetails: {
-        type: Object,
-    },
-    advocateBarDetails: {
-        type: Object,
-    },
+    verified: {
+        type: Boolean,
+    }
 })
 
-const Advocate: Model<IAdvocate> = model<IAdvocate>("Advocate", AdvocateSchema);
+const Auth: Model<IAuth> = model<IAuth>("auth_user", AuthSchema);
 
-export default Advocate;
+export default Auth;

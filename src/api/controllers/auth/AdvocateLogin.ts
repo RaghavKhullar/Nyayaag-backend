@@ -1,5 +1,5 @@
 import {Handler} from "express";
-import Advocate from "../../models/auth/advocate";
+import Advocate from "../../models/auth/authModel";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 
