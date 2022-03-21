@@ -1,13 +1,13 @@
 import {Handler} from "express";
-import Advocate from "../../models/auth/authModel";
+import UserModel from "../../models/auth/authModel";
 import bcrypt from "bcrypt"
 import sendOtpVerificationEmail from "./SendOTPVerificationEmail";
 
-const advocateRegister: Handler =  async (req, res , next)=>{
+const UserRegister: Handler =  async (req, res , next)=>{
     try{
         const { username , password , confirmPassword , securityQuestion , securityAnswer} = req.body;
         console.log(securityQuestion , securityAnswer);
-        const duplicates = await Advocate.findOne({ username: username }).exec();
+        const duplicates = await UserModel.findOne({ username: username }).exec();
         if( password !== confirmPassword){
             return res.status(401).json({ message : "Password and confirm password doesn't match.",  success: false  , status: 401});
         }
@@ -16,7 +16,7 @@ const advocateRegister: Handler =  async (req, res , next)=>{
         }
         try {
             const hashed = await bcrypt.hash(password , 10);
-            const result = await Advocate.create({
+            const result = await UserModel.create({
                 username: username,
                 password: hashed,
                 securityQuestion: securityQuestion,
@@ -34,4 +34,4 @@ const advocateRegister: Handler =  async (req, res , next)=>{
     }
 }
 
-export { advocateRegister };
+export { UserRegister };
