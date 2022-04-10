@@ -6,7 +6,7 @@ import sendOtpVerificationEmail from "./SendOTPVerificationEmail";
 const UserRegister: Handler =  async (req, res , next)=>{
     try{
         const { username , password , confirmPassword , securityQuestion , securityAnswer} = req.body;
-        console.log(securityQuestion , securityAnswer);
+        // console.log(securityQuestion , securityAnswer);
         const duplicates = await UserModel.findOne({ username: username }).exec();
         if( password !== confirmPassword){
             return res.status(401).json({ message : "Password and confirm password doesn't match.",  success: false  , status: 401});
@@ -23,7 +23,8 @@ const UserRegister: Handler =  async (req, res , next)=>{
                 securityAnswer: securityAnswer,
                 verified: false,
             });
-            console.log(result);
+            // console.log(result);
+            console.log(req)
             sendOtpVerificationEmail(username,res);
             // return res.status(201).json({ message : `New user Created ${result}` ,  success: true , status : 201});        
         } catch (err) {

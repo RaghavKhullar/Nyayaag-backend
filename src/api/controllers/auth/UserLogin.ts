@@ -19,7 +19,15 @@ const UserLogin: Handler =  async (req, res , next)=>{
                 id: user?._id,
                 username: user?.username
             },JWT_SECRET)
-
+            req.session.user=user?._id;
+            req.session.save(err => {
+                if(err){
+                    console.log(err);
+                } else {
+                  console.log(req.session)
+                    res.send(req.session)
+                }
+            });
             return res.json({ status:'ok',  data: token})
         }else{
             res.status(401).json({ message : "Invalid Credentials",  success: false  , status: 401});
