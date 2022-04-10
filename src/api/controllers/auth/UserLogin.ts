@@ -1,14 +1,14 @@
 import {Handler} from "express";
-import Advocate from "../../models/auth/authModel";
+import UserModel from "../../models/auth/authModel";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = "amsgiaowjwoig293u498238*Y(&^^Bhjbigu";
 
-const advocateLogin: Handler =  async (req, res , next)=>{
+const UserLogin: Handler =  async (req, res , next)=>{
     try{
         const { username , password } = req.body;
-        const user = await Advocate.findOne({ username: username }).lean();
+        const user = await UserModel.findOne({ username: username }).lean();
         const userPassword : string =  user?.password || '';
         if(!user){
             res.status(404).json({ message : "Invalid Credentials",  success: false  , status: 404});
@@ -19,7 +19,15 @@ const advocateLogin: Handler =  async (req, res , next)=>{
                 id: user?._id,
                 username: user?.username
             },JWT_SECRET)
-
+            req.session.user=user?._id;
+            req.session.save(err => {
+                if(err){
+                    console.log(err);
+                } else {
+                  console.log(req.session)
+                    res.send(req.session)
+                }
+            });
             return res.json({ status:'ok',  data: token})
         }else{
             res.status(401).json({ message : "Invalid Credentials",  success: false  , status: 401});
@@ -30,4 +38,4 @@ const advocateLogin: Handler =  async (req, res , next)=>{
     }
 }
 
-export { advocateLogin };
+export { UserLogin };

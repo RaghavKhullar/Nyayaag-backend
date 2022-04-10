@@ -16,5 +16,5 @@ export default () => {
         })
 }
 
-const connetion = mongoose.connection;
-export { connetion };
+const connection = mongoose.connection;
+export { connection };
