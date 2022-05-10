@@ -1,5 +1,6 @@
 import {Router} from "express";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { UpdateDetails } from "../controllers/client/updateProflie";
 import {GetAdvocate}from "../controllers/client/GetAdvocate"
 const router = Router();
@@ -45,4 +46,13 @@ router.post("/profile",getDetails)
 
 router.post("/viewClients",ViewClients)
 >>>>>>> feat: add userAuth
+=======
+
+const router = Router();
+
+router.get('/', (req,res) => {
+    res.send("get route for clinet login")
+})
+
+>>>>>>> advocate and student details update
 export default router;

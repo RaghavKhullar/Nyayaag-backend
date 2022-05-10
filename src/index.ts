@@ -28,7 +28,6 @@ declare module 'express-session' {
     user: ObjectId;
   }
 }
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
