@@ -9,6 +9,7 @@ export default interface IAuth extends Document {
   securityQuestion?: string;
   securityAnswer?: string;
   verified?: boolean;
+  userType? : string | "client";
 
   // Methods
   comparePassword(inputPassword: string, next: NextFunction): Promise<boolean>;

@@ -20,6 +20,10 @@ const AuthSchema: Schema = new Schema({
     },
     verified: {
         type: Boolean,
+    },
+    userType: {
+        type: String,
+        default: "client"
     }
 })
 

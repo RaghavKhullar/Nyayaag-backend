@@ -4,8 +4,7 @@ import database from "./api/utils/db";
 const session=require("express-session");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const MongoDBStore = require('connect-mongodb-session')(session);
-import { Request } from "express";
-import UserRoute from "./api/routes/UserRoute";
+// import { Request } from "express";
 
 const app = express();
 const port = 3000;
@@ -17,11 +16,6 @@ declare module 'express-session' {
     user: string;
   }
 }
-// app.use( (req, res, next)=> {
- 
-//     req.session.user= "Manav"
-  
-// }),
 app.use(
   session({
     secret: "myNameisRaghav",
@@ -37,20 +31,17 @@ app.use(
 // app.use(methodOverride("_method"));
 database();
 
-app.get('/', (req:Request,res,next) => {
- 
-  
-  req.session.save(err => {
-      if(err){
-          console.log(err);
-      } else {
-        console.log(req.session)
-          res.send(req.session)
-      }
-  });
-})
+import AuthRoute from "./api/routes/AuthRoute"
+import ClientRoute from "./api/routes/UserRoute"
+import AdvocateRoute from "./api/routes/AdvocateRoute"
+import StudentRoute from "./api/routes/StudentsRoute"
+// import { ObjectId } from "mongodb";
+app.use("/auth", AuthRoute);
+app.use("/advocate",AdvocateRoute)
+app.use("/clinet",ClientRoute)
+app.use("/student",StudentRoute)
 
-app.use("/auth", UserRoute);
+
 
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);

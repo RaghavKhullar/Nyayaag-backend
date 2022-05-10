@@ -5,8 +5,7 @@ import sendOtpVerificationEmail from "./SendOTPVerificationEmail";
 
 const UserRegister: Handler =  async (req, res , next)=>{
     try{
-        const { username , password , confirmPassword , securityQuestion , securityAnswer} = req.body;
-        // console.log(securityQuestion , securityAnswer);
+        const { username , password , confirmPassword , securityQuestion , securityAnswer , userType } = req.body;
         const duplicates = await UserModel.findOne({ username: username }).exec();
         if( password !== confirmPassword){
             return res.status(401).json({ message : "Password and confirm password doesn't match.",  success: false  , status: 401});
@@ -16,17 +15,17 @@ const UserRegister: Handler =  async (req, res , next)=>{
         }
         try {
             const hashed = await bcrypt.hash(password , 10);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const result = await UserModel.create({
                 username: username,
                 password: hashed,
                 securityQuestion: securityQuestion,
                 securityAnswer: securityAnswer,
                 verified: false,
+                userType: userType,
             });
-            // console.log(result);
             console.log(req)
             sendOtpVerificationEmail(username,res);
-            // return res.status(201).json({ message : `New user Created ${result}` ,  success: true , status : 201});        
         } catch (err) {
             return res.status(500).json({ message : err ,  success: false  , status: 500});
         }
