@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 import database from "./api/utils/db";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const session=require("express-session");
@@ -7,9 +9,11 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 // import { Request } from "express";
 
 const app = express();
+app.use(cors());
 const port = 3000;
 
-app.use(express.urlencoded({ extended: false })); // get data from the forms from frontend z >>
+app.use(bodyParser.urlencoded({ extended: false })); 
+app.use(express.json({ strict: false })); // get data from the forms from frontend z >>
 
 declare module 'express-session' {
   export interface Session {
