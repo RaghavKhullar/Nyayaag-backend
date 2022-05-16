@@ -33,7 +33,7 @@ const UserLogin: Handler =  async (req, res , next)=>{
                     console.log(req.session)
                 }
             });
-            return res.json({ status:'ok',  data: token})
+            return res.status(200).json({ status: "ok",  username: req.session.user , userType : user?.userType})
         }else{
             res.status(401).json({ message : "Invalid Credentials",  success: false  , status: 401});
         }
