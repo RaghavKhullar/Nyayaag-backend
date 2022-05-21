@@ -15,7 +15,7 @@ const ResendOTPVerification:Handler = async ( req , res) => {
         }
 
     } catch (error) {
-        res.json({
+        return res.json({
             status: "FAILED",
             msg: error
         })

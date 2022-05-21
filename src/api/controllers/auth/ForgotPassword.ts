@@ -19,7 +19,7 @@ const ForgotPassword : Handler = async (req, res , next) => {
                     console.log(data);
                     if(data.verified === false){
                         // user is not verfied!!
-                        res.json({
+                        return res.json({
                             status: "FAILED",
                             message: "Account is not validated yet!!",
                         }) 
@@ -51,7 +51,7 @@ const ForgotPassword : Handler = async (req, res , next) => {
                                             expiresAt: Date.now() + 3600000,
                                         })
                                         if(!result){
-                                            res.json({
+                                            return res.json({
                                                 status: "FAILED",
                                                 message: "Failed Saving data in data base!!",
                                             })
@@ -60,14 +60,14 @@ const ForgotPassword : Handler = async (req, res , next) => {
                                                 .sendMail(mailOptions)
                                                 .then( () => {
                                                     // reset email sent and password reset record saved
-                                                    res.json({
+                                                    return res.json({
                                                         status: "PENDING",
                                                         message: "Password reset email sent!"
                                                     })
                                                 })
                                                 .catch( error => {
                                                     console.log(error);
-                                                    res.json({
+                                                    return res.json({
                                                         status: "FAILED",
                                                         message: "password reset mail failed",
                                                     })
@@ -76,7 +76,7 @@ const ForgotPassword : Handler = async (req, res , next) => {
                                     })
                                     .catch( (err : Error) => {
                                         console.log(err)
-                                        res.json({
+                                        return res.json({
                                             status: "FAILED",
                                             message: "Error Occured while hashing the password reset data!!",
                                         })
@@ -85,14 +85,14 @@ const ForgotPassword : Handler = async (req, res , next) => {
                             })
                             .catch(err => {
                                 console.log(err);
-                                res.json({
+                                return res.json({
                                     status: "FAILED",
                                     message: "Clearing existing password reset records failed",
                                 })
                             })
                     }
                 } else {
-                    res.json({
+                    return res.json({
                         status: "FAILED",
                         message: "No account with the supplied email exists!!",
                     })
@@ -103,7 +103,7 @@ const ForgotPassword : Handler = async (req, res , next) => {
             });
 
     } catch (error) {
-        res.json({ status: 500, msg: error });
+        return res.json({ status: 500, msg: error });
     }
 }
 

@@ -51,7 +51,7 @@ router.post("/viewClients",ViewClients)
 const router = Router();
 
 router.get('/', (req,res) => {
-    res.send("get route for clinet login")
+    res.send("get route for client login")
 })
 
 >>>>>>> advocate and student details update
