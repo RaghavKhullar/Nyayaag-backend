@@ -12,6 +12,19 @@ const AdvocateSchema: Schema = new Schema({
     advocateBarDetails: {
         type: Object,
     },
+    clientDetails: [
+        {
+            courtComplex: String,
+            caseType: String,
+            caseNumber: String,
+            caseYear: Number,
+            clientName: String,
+            contactNumber: Number,
+            address: String,
+            IAdetalils: String,
+            nextHearingData: Date,
+          }
+    ],
 })
 
 const Advocate: Model<IAdvocate> = model<IAdvocate>("Advocate", AdvocateSchema);

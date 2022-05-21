@@ -27,11 +27,11 @@ const sendOtpVerificationEmail = async (username: string, res: any) => {
                         expiresAt: Date.now() + 3600000,
                     });
                     transporter.sendMail(mailOptions);
-                    res.status(201).json({ message: `Otp sent`, success: true, status: 201 });
+                    return res.status(201).json({ message: `Otp sent`, success: true, status: 201 });
                 }
             })
     } catch (error) {
-        res.json({ status: 500, msg: error });
+        return res.json({ status: 500, msg: error });
     }
 }
 

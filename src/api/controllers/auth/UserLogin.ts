@@ -11,10 +11,10 @@ const UserLogin: Handler =  async (req, res , next)=>{
         const user = await Auth.findOne({ username: username }).lean();
         const userPassword : string =  user?.password || '';
         if(!user){
-            res.status(404).json({ message : "Invalid Credentials",  success: false  , status: 404});
+            return res.status(404).json({ message : "Invalid Credentials",  success: false  , status: 404});
         }
         if(!user?.verified){
-            res.status(404).json({
+            return res.status(404).json({
                 status: "FAILED",
                 message: "Please verify the usernaem to login!!",
             })
@@ -25,7 +25,7 @@ const UserLogin: Handler =  async (req, res , next)=>{
                 id: user?._id,
                 username: user?.username
             },JWT_SECRET)
-            req.session.user = username;
+            req.session.user = user?._id;
             req.session.save(err => {
                 if(err){
                     console.log(err);
@@ -33,13 +33,13 @@ const UserLogin: Handler =  async (req, res , next)=>{
                     console.log(req.session)
                 }
             });
-            return res.status(200).json({ status: "ok",  username: req.session.user , userType : user?.userType})
+            return res.status(200).json({ status: "ok",  session: req.session , userType : user?.userType})
         }else{
-            res.status(401).json({ message : "Invalid Credentials",  success: false  , status: 401});
+            return res.status(401).json({ message : "Invalid Credentials",  success: false  , status: 401});
         }
 
     } catch (err) {
-        next({ status: 500 , msg:err });
+        return res.status(500).json({ status: 500 , msg:err });
     }
 }
 

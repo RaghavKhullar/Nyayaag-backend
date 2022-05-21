@@ -8,26 +8,26 @@ const UpdateDetails: Handler = async (req, res, next) => {
     console.log("UpdatePersonalDetails");
     try {
         if (!req.session.user) {
-            res.status(404).json({
+            return res.status(404).json({
                 status: "FAILED",
                 message: "Please Login before entering!!",
             })
         }
         const user: IAuth = await Auth.findOne({ username: req.session.user || null }).lean();
         if (!user) {
-            res.status(404).json({
+            return res.status(404).json({
                 status: "FAILED",
                 message: "The requested User doesn't exists!!",
             })
         } else {
             if (!user.verified) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: "FAILED",
                     message: "Please Verify your username to login!!",
                 })
             }
             if (user.userType !== "student") {
-                res.status(404).json({
+                return res.status(404).json({
                     status: "FAILED",
                     message: "This user type isn't allowed to login!!",
                 })
@@ -51,13 +51,13 @@ const UpdateDetails: Handler = async (req, res, next) => {
             await Student
                 .create(newStudent)
                 .then(() => {
-                    res.status(200).json({
+                    return res.status(200).json({
                         status: "SUCCESSFUL",
                         message: "This user can been updated!!",
                     })
                 })
                 .catch((err) => {
-                    res.status(400).json({
+                    return res.status(400).json({
                         status: "FAILED",
                         message: err
                     })
@@ -75,12 +75,12 @@ const UpdateDetails: Handler = async (req, res, next) => {
                 }
             });
         }
-        res.status(200).json({
+        return res.status(200).json({
             status: "SUCCESSFUL",
             message: "This user has been updated!!",
         })
     } catch {
-        res.send("Not working")
+        return res.send("Not working")
     }
 }
 

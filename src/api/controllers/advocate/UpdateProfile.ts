@@ -7,26 +7,26 @@ const updatePersonalDetails: Handler = async (req, res, next) => {
     console.log("UpdatePersonalDetails");
     try {
         if (req.session && !req.session.user) {
-            res.status(404).json({
+            return res.status(404).json({
                 status: "FAILED",
                 message: "Please Login before entering!!",
             })
         }
-        const user: IAuth = await Auth.findOne({ username: req.session.user || null }).lean();
+        const user: IAuth = await Auth.findOne({ _id: req.session.user || null }).lean();
         if (!user) {
-            res.status(404).json({
+            return res.status(404).json({
                 status: "FAILED",
                 message: "The requested User doesn't exists!!",
             })
         } else {
             if (!user.verified) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: "FAILED",
                     message: "Please Verify your username to login!!",
                 })
             }
             if (user.userType !== "advocate") {
-                res.status(404).json({
+                return res.status(404).json({
                     status: "FAILED",
                     message: "This user type isn't allowed to login!!",
                 })
@@ -60,7 +60,8 @@ const updatePersonalDetails: Handler = async (req, res, next) => {
                 },
                 advocateBarDetails: {
                     state: "",
-                }
+                },
+                clientDetails:[],
             }
             const result = await Advocate.create(newAdvocate);
             console.log(result)
@@ -68,38 +69,38 @@ const updatePersonalDetails: Handler = async (req, res, next) => {
         else {
             await Advocate.updateOne({ user: user._id }, { $set: { personalDetails: data } });
         }
-        res.status(200).json({
+        return res.status(200).json({
             status: "SUCCESSFUL",
             message: "This user has been updated!!",
         })
     } catch {
-        res.send("Not working")
+        return res.send("Not working")
     }
 }
 const updateAdvocateBarDetails: Handler = async (req, res, next) => {
     console.log("UpdatePersonalDetails");
     try {
         if (req.session && !req.session.user) {
-            res.status(404).json({
+            return res.status(404).json({
                 status: "FAILED",
                 message: "Please Login before entering!!",
             })
         }
-        const user: IAuth = await Auth.findOne({ username: req.session.user || null }).lean();
+        const user: IAuth = await Auth.findOne({ _id: req.session.user || null }).lean();
         if (!user) {
-            res.status(404).json({
+            return res.status(404).json({
                 status: "FAILED",
                 message: "The requested User doesn't exists!!",
             })
         } else {
             if (!user.verified) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: "FAILED",
                     message: "Please Verify your username to login!!",
                 })
             }
             if (user.userType !== "advocate") {
-                res.status(404).json({
+                return res.status(404).json({
                     status: "FAILED",
                     message: "This user type isn't allowed to login!!",
                 })
@@ -130,19 +131,20 @@ const updateAdvocateBarDetails: Handler = async (req, res, next) => {
                     specialization: specialization,
                     officeAddress: officeAddress,
                     pinCode: pinCode,
-                }
+                },
+                clientDetails: [],
             }
             const result = await Advocate.create(newAdvocate);
             console.log(result)
         } else {
             await Advocate.updateOne({ user: user._id }, { $set: { advocateBarDetails: data } });
         }
-        res.status(200).json({
+        return res.status(200).json({
             status: "SUCCESSFUL",
             message: "This user has been updated!!",
         })
     } catch {
-        res.send("Not working")
+        return res.send("Not working")
     }
 }
 

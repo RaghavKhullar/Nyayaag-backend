@@ -5,7 +5,7 @@ import {  UpdateDetails } from "../controllers/student/UpdateProfile";
 const router = Router();
 
 
-router.put("/update",UpdateDetails)
+router.post("/update",UpdateDetails)
 
 // router.put("/updatePersonalDetails", updatePersonalDetails )
 

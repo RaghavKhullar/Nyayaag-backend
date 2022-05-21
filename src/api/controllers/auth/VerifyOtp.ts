@@ -35,7 +35,7 @@ const verifyOtp: Handler = async (req , res) => {
                         console.log("otp is matched")
                         await Advocate.updateOne({ username: username } , { verified: true });
                         await OTPVerification.deleteMany({ username: username });
-                        res.json({
+                        return res.json({
                             status: "VERIFIED",
                             message: "user email verified successfully",
                         })
@@ -45,7 +45,7 @@ const verifyOtp: Handler = async (req , res) => {
 
         }
     } catch (error) {
-        res.json({ status: "FAILED", msg: error });
+        return res.json({ status: "FAILED", msg: error });
     }
 }
 

@@ -1,33 +1,58 @@
+import { ObjectId } from 'mongodb';
 // ! Interface for the advocate Model
 
 import { Document } from "mongoose";
-import { NextFunction } from "express";
 
 export default interface IAdvocate extends Document {
-  personalDetails?: PersonalDetails;
-  advocateBarDetails?: AdvocateBarDetails;
-
-  // Methods
-  comparePassword(inputPassword: string, next: NextFunction): Promise<boolean>;
+  user: ObjectId;
+  personalDetails: PersonalDetails;
+  advocateBarDetails: AdvocateBarDetails;
+  clientDetails: [
+    {
+      courtComplex: string;
+      caseType: string;
+      caseNumber: string;
+      caseYear: number;
+      clientName: string;
+      contactNumber: number;
+      address: string;
+      IAdetalils: string;
+      nextHearingData: Date;
+    }
+  ];
 }
 
 interface PersonalDetails {
-  salutation?: string;
-  firstName?: string;
-  middleName?: string| null;
-  lastName?: string| null;
-  gender?: string;
-  emailAddress?: string;
-  DOB?: Date;
-  phoneNo?: number;
+  salutation: string;
+  firstName: string;
+  middleName: string| null;
+  lastName: string| null;
+  gender: string;
+  emailAddress: string;
+  DOB: Date;
+  phoneNo: number;
 }
 
 interface AdvocateBarDetails {
-  state?: string;
-  district?: string;
-  barCouncilNumber?: number;
-  areaOfPractice?: string;
-  specialization?: string;
-  officeAddress?:string;
-  pinCode?: number;
+  state: string;
+  district: string;
+  barCouncilNumber: number;
+  areaOfPractice: string;
+  specialization: string;
+  officeAddress:string;
+  pinCode: number;
 }
+
+interface ClientDetails{
+  courtComplex: string;
+  caseType: string;
+  caseNumber: string;
+  caseYear: number;
+  clientName: string;
+  contactNumber: number;
+  address: string;
+  IAdetalils: string;
+  nextHearingData: Date;
+}
+
+export {PersonalDetails , AdvocateBarDetails,ClientDetails}

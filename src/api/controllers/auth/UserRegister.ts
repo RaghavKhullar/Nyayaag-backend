@@ -30,7 +30,7 @@ const UserRegister: Handler =  async (req, res , next)=>{
             return res.status(500).json({ message : err ,  success: false  , status: 500});
         }
     } catch (err) {
-        next({ status: 500 , msg: err });
+        return res.status(500).json({ status: 500 , msg: err });
     }
 }
 

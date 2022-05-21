@@ -23,7 +23,7 @@ const ResetPassword : Handler = async (req, res , next) => {
                         PasswordReset
                             .deleteOne({username})
                             .then( () => {
-                                res.json({
+                                return res.json({
                                     status: "FAILED",
                                     message: "Password Link has been Expired.",
                                 })
@@ -31,7 +31,7 @@ const ResetPassword : Handler = async (req, res , next) => {
                             )
                             .catch( error => {
                                 console.log(error)
-                                res.json({
+                                return res.json({
                                     status: "FAILED",
                                     message: "password reset request not found.",
                                 })
@@ -55,14 +55,14 @@ const ResetPassword : Handler = async (req, res , next) => {
                                                 PasswordReset
                                                     .deleteOne({username : username})
                                                     .then(()=>{
-                                                        res.json({
+                                                        return res.json({
                                                             status: "SUCCESS",
                                                             message: "Password Update was successfull.",
                                                         })
                                                     })
                                                     .catch( err => {
                                                         console.log(err);
-                                                        res.json({
+                                                        return res.json({
                                                             status: "FAILED",
                                                             message: "An error occured while finalizing password reset.",
                                                         })
@@ -70,7 +70,7 @@ const ResetPassword : Handler = async (req, res , next) => {
                                             })
                                             .catch(err => {
                                                 console.log(err)
-                                                res.json({
+                                                return res.json({
                                                     status: "FAILED",
                                                     message: "Updating user password failed.",
                                                 })
@@ -78,13 +78,13 @@ const ResetPassword : Handler = async (req, res , next) => {
                                     })
                                     .catch( err => {
                                         console.log(err)
-                                        res.json({
+                                        return res.json({
                                             status: "FAILED",
                                             message: "Error while hashing new password.",
                                         })
                                     })
                             } else {
-                                res.json({
+                                return res.json({
                                     status: "FAILED",
                                     message: "Invaild Password reset details passed.",
                                 })
@@ -92,14 +92,14 @@ const ResetPassword : Handler = async (req, res , next) => {
                         })
                         .catch(err => {
                             console.log(err);
-                            res.json({
+                            return res.json({
                                 status: "FAILED",
                                 message: "Comparing password reset string failed.",
                             })
                         })
                     }
                 } else {
-                    res.json({
+                    return res.json({
                         status: "FAILED",
                         message: "password reset request not found.",
                     })
@@ -107,13 +107,13 @@ const ResetPassword : Handler = async (req, res , next) => {
             })
             .catch(error => {
                 console.log(error);
-                res.json({
+                return res.json({
                     status: "FAILED",
                     message: "Checking for password reset record failed!",
                 })
             })
     } catch (error) {
-        res.json({ status: 500, msg: error });
+        return res.json({ status: 500, msg: error });
     }
 }
 

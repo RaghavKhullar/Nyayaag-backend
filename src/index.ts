@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import database from "./api/utils/db";
-import bodyParser from "body-parser";
+import { ObjectId } from "mongodb";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const session=require("express-session");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -18,7 +18,7 @@ app.use(express.json({ strict: false }));
 
 declare module 'express-session' {
   export interface Session {
-    user: string;
+    user: ObjectId;
   }
 }
 app.use(
@@ -40,10 +40,11 @@ import AuthRoute from "./api/routes/AuthRoute"
 import ClientRoute from "./api/routes/UserRoute"
 import AdvocateRoute from "./api/routes/AdvocateRoute"
 import StudentRoute from "./api/routes/StudentsRoute"
+
 // import { ObjectId } from "mongodb";
 app.use("/auth", AuthRoute);
 app.use("/advocate",AdvocateRoute)
-app.use("/clinet",ClientRoute)
+app.use("/client",ClientRoute)
 app.use("/student",StudentRoute)
 
 
