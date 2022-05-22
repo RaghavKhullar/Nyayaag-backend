@@ -16,8 +16,8 @@ export default interface IAdvocate extends Document {
       clientName: string;
       contactNumber: number;
       address: string;
-      IAdetalils: string;
-      nextHearingData: Date;
+      IAdetails: string;
+      nextHearingDate: Date;
     }
   ];
 }
@@ -51,8 +51,8 @@ interface ClientDetails{
   clientName: string;
   contactNumber: number;
   address: string;
-  IAdetalils: string;
-  nextHearingData: Date;
+  IAdetails: string;
+  nextHearingDate: Date;
 }
 
 export {PersonalDetails , AdvocateBarDetails,ClientDetails}
