@@ -12,4 +12,5 @@ router.post("/addclient",AddClient)
 
 router.post("/caseReminder",CaseReminder)
 
+router.post("/profile",)
 export default router;
