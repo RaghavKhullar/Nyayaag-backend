@@ -3,7 +3,7 @@ import Advocate from "../../models/advocate/advocate";
 import Auth from "../../models/auth/authModel";
 import IAuth from "../../models/auth/InterfaceAuth";
 
-const AddClient: Handler = async (req, res, next) => {
+const AddClient: Handler = async (req, res) => {
   try {
     if (req.session && !req.session.user) {
       return res.status(404).json({
