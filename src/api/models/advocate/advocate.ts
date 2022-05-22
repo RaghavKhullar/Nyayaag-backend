@@ -21,9 +21,9 @@ const AdvocateSchema: Schema = new Schema({
             clientName: String,
             contactNumber: Number,
             address: String,
-            IAdetalils: String,
-            nextHearingData: Date,
-          }
+            IAdetails: String,
+            nextHearingDate: Date,
+          },
     ],
 })
 
