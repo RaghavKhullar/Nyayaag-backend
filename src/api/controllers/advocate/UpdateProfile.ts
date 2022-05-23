@@ -1,4 +1,4 @@
-import { Handler } from "express";
+import e, { Handler } from "express";
 import Auth from "../../models/auth/authModel";
 import Advocate from "../../models/advocate/advocate";
 import IAdvocate from "../../models/advocate/InterfaceAdvocateRegister";
