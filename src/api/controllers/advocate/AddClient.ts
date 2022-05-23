@@ -53,7 +53,7 @@ const AddClient: Handler = async (req, res) => {
       contactNumber: contactNumber,
       address: address,
       IAdetails: IAdetails,
-      nextHearingDate: nextHearingDate,
+      nextHearingDate: new Date(nextHearingDate),
     };
     const advocate = await Advocate.findOne({
       user: user._id,

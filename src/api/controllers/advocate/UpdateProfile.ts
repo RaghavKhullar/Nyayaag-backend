@@ -1,4 +1,4 @@
-import { Handler } from "express";
+import e, { Handler } from "express";
 import Auth from "../../models/auth/authModel";
 import Advocate from "../../models/advocate/advocate";
 import IAdvocate from "../../models/advocate/InterfaceAdvocateRegister";
@@ -209,10 +209,21 @@ const getDetails: Handler = async (req, res) => {
     const advocate = await Advocate.findOne({
       user: user._id,
     });
-    if(!advocate){
-        return res.status(400).jsonp({message:"Please fill your personal and bar details",data:{}});
-    }
-    // else if(advocate.personalDetails)
+    if (!advocate) {
+      return res.status(400).jsonp({ message: "Please fill your Personal and Bar details", data: {} });
+    } else if (advocate.personalDetails.firstName === undefined) {
+      if (advocate.advocateBarDetails.state === undefined) {
+        return res.status(400).jsonp({ message: "Please fill your Personal details", data: {} });
+      } else {
+        return res.status(400).jsonp({ message: "Please fill your Personal details", data: { advocateBarDetails: advocate.advocateBarDetails } });
+      }
+    } else if (advocate.advocateBarDetails.state === undefined) {
+      if (advocate.personalDetails.firstName === undefined) {
+        return res.status(400).jsonp({ message: "Please fill your Bar details", data: {} });
+      } else {
+        return res.status(400).jsonp({ message: "Please fill your Bar details", data: { personalDetails: advocate.personalDetails } });
+      }
+    } else {
       return res
         .status(200)
         .jsonp({
@@ -221,7 +232,7 @@ const getDetails: Handler = async (req, res) => {
             advocateBarDetails: advocate.advocateBarDetails,
           },
         });
-    
+    }
   } catch (err) {
     return res.send("Not working");
   }

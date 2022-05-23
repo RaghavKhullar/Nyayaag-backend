@@ -23,7 +23,7 @@ export default interface IAdvocate extends Document {
 }
 
 interface PersonalDetails {
-  salutation: string;
+  salutation?: string;
   firstName: string;
   middleName: string| null;
   lastName: string| null;
@@ -34,7 +34,7 @@ interface PersonalDetails {
 }
 
 interface AdvocateBarDetails {
-  state: string;
+  state?: string;
   district: string;
   barCouncilNumber: number;
   areaOfPractice: string;
