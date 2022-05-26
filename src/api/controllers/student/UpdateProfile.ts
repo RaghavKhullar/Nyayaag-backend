@@ -1,19 +1,24 @@
 import { Handler } from 'express';
-import IStudent from '../../models/student/InterfaceStudent';
+// import IStudent from '../../models/student/InterfaceStudent';
 import Student from '../../models/student/student';
 import IAuth from '../../models/auth/InterfaceAuth';
 import Auth from '../../models/auth/authModel';
+import mongoose from 'mongoose';
 
-const UpdateDetails: Handler = async (req, res, next) => {
-    console.log("UpdatePersonalDetails");
+const UpdateDetails: Handler = async (req, res) => {
+    console.log(typeof req.body.userID , req.body.userID , "Manav")
     try {
-        if (!req.session.user) {
+        if (!req.body.userID) {
             return res.status(404).json({
                 status: "FAILED",
                 message: "Please Login before entering!!",
             })
         }
-        const user: IAuth = await Auth.findOne({ username: req.session.user || null }).lean();
+        const idString = req.body.userID.slice(1,req.body.userID.length-1);
+        console.log(idString);
+        const id = new mongoose.Types.ObjectId(idString)
+        console.log(id)
+        const user: IAuth = await Auth.findOne({ _id: id || null }).lean();
         if (!user) {
             return res.status(404).json({
                 status: "FAILED",
@@ -35,8 +40,9 @@ const UpdateDetails: Handler = async (req, res, next) => {
         }
         const { studentName, nameOfCollege, RollNo, Course, CourseDuration, address, pincode } = req.body;
         console.log(user);
-        const student: IStudent = await Student.findOne({ user: user._id }).lean();
-        if (!student) {
+        const student = await Student.findOne({ user: user._id });
+        console.log(student)
+        if (student === null) {
             const newStudent = {
                 user: user._id,
                 studentName: studentName,
@@ -46,8 +52,8 @@ const UpdateDetails: Handler = async (req, res, next) => {
                 CourseDuration: CourseDuration,
                 address: address,
                 pincode: pincode
-
             }
+            console.log(newStudent)
             await Student
                 .create(newStudent)
                 .then(() => {

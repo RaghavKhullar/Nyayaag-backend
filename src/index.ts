@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import database from "./api/utils/db";
 import { ObjectId } from "mongodb";
+import morgan from "morgan";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const session=require("express-session");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -16,6 +17,8 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(express.json({ strict: false }));
 
+app.use(morgan("dev"));
+
 declare module 'express-session' {
   export interface Session {
     user: ObjectId;
@@ -24,7 +27,7 @@ declare module 'express-session' {
 app.use(
   session({
     secret: "myNameisRaghav",
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: new MongoDBStore({
       uri:"mongodb://localhost:27017/nyayaag",
       collection:"session",

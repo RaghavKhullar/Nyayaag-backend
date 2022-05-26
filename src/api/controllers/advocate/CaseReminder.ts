@@ -1,4 +1,5 @@
 import { Handler } from "express";
+import mongoose from "mongoose";
 import Advocate from "../../models/advocate/advocate";
 import IAdvocate from "../../models/advocate/InterfaceAdvocateRegister";
 import Auth from "../../models/auth/authModel";
@@ -6,15 +7,11 @@ import IAuth from "../../models/auth/InterfaceAuth";
 
 const CaseReminder: Handler = async (req, res) => {
   try {
-    if (req.session && !req.session.user) {
-      return res.status(404).json({
-        status: "FAILED",
-        message: "Please Login before entering!!",
-      });
-    }
-    const user: IAuth = await Auth.findOne({
-      _id: req.session.user || null,
-    }).lean();
+    const idString = req.body.userID.slice(1,req.body.userID.length-1);
+    console.log(idString);
+    const id = new mongoose.Types.ObjectId(idString)
+    console.log(id)
+    const user: IAuth = await Auth.findOne({ _id: id || null }).lean();
     if (!user) {
       return res.status(404).json({
         status: "FAILED",
@@ -79,15 +76,11 @@ const CaseReminder: Handler = async (req, res) => {
 
 const ViewClients: Handler = async (req, res) => {
   try {
-    if (req.session && !req.session.user) {
-      return res.status(404).json({
-        status: "FAILED",
-        message: "Please Login before entering!!",
-      });
-    }
-    const user: IAuth = await Auth.findOne({
-      _id: req.session.user || null,
-    }).lean();
+    const idString = req.body.userID.slice(1,req.body.userID.length-1);
+    console.log(idString);
+    const id = new mongoose.Types.ObjectId(idString)
+    console.log(id)
+    const user: IAuth = await Auth.findOne({ _id: id || null }).lean();
     if (!user) {
       return res.status(404).json({
         status: "FAILED",
