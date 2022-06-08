@@ -1,4 +1,4 @@
-import e, { Handler } from "express";
+import { Handler } from "express";
 import Auth from "../../models/auth/authModel";
 import Advocate from "../../models/advocate/advocate";
 import IAdvocate from "../../models/advocate/InterfaceAdvocateRegister";
@@ -6,6 +6,7 @@ import IAuth from "../../models/auth/InterfaceAuth";
 import mongoose from "mongoose";
 
 const updatePersonalDetails: Handler = async (req, res) => {
+  console.log(req.body);
   try {
     const idString = req.body.userID.slice(1,req.body.userID.length-1);
     console.log(idString);
@@ -85,7 +86,7 @@ const updatePersonalDetails: Handler = async (req, res) => {
       message: "This user has been updated!!",
     });
   } catch {
-    return res.send("Not working");
+    return res.status(400).jsonp({message : "Not working"});
   }
 };
 

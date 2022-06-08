@@ -11,12 +11,10 @@ export default interface IClient extends Document {
 }
 
 interface PersonalDetails {
-  salutation?: string;
-  firstName?: string;
-  middleName?: string| null;
-  lastName?: string| null;
+  name?: string;
   gender?: string;
   emailAddress?: string;
-  DOB?: Date;
   phoneNo?: number;
+  address?: string;
+  pincode?: number;
 }
