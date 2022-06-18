@@ -16,5 +16,5 @@ interface PersonalDetails {
   emailAddress?: string;
   phoneNo?: number;
   address?: string;
-  pincode?: number;
+  pincode: number;
 }
