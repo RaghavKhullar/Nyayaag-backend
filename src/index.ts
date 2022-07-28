@@ -28,6 +28,7 @@ declare module 'express-session' {
     user: ObjectId;
   }
 }
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -42,10 +43,9 @@ app.use(
 );
 // app.use(methodOverride("_method"));
 database();
-
+import AdvocateRoute from "./api/routes/AdvocateRoute"
 import AuthRoute from "./api/routes/AuthRoute"
 import ClientRoute from "./api/routes/UserRoute"
-import AdvocateRoute from "./api/routes/AdvocateRoute"
 import StudentRoute from "./api/routes/StudentsRoute"
 
 // import { ObjectId } from "mongodb";
