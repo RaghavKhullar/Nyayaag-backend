@@ -4,12 +4,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../../models/auth/authModel";
 import { SendOtpVerificationEmail } from "./OtpController";
-const JWT_SECRET = "amsgiaowjwoig293u498238*Y(&^^Bhjbigu";
 
 const Login: Handler = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await Auth.findOne({ username: username }).lean();
+    const user = await Auth.findOne({ username: username });
     const userPassword: string = user?.password || "";
     if (!user) {
       return res
@@ -23,13 +22,6 @@ const Login: Handler = async (req, res) => {
       });
     }
     if (await bcrypt.compare(password, userPassword)) {
-      const token = jwt.sign(
-        {
-          id: user?._id,
-          username: user?.username,
-        },
-        JWT_SECRET
-      );
       req.session.user = user?._id;
       req.session.save((err) => {
         if (err) {
@@ -38,6 +30,8 @@ const Login: Handler = async (req, res) => {
           console.log(req.session);
         }
       });
+      user.sessionId = req.session.id;
+      await user.save();
       return res
         .status(200)
         .json({

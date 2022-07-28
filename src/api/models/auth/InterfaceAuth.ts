@@ -5,6 +5,7 @@ import { NextFunction } from "express";
 
 export default interface IAuth extends Document {
   username?: string;
+  sessionId?: string;
   password: string;
   securityQuestion?: string;
   securityAnswer?: string;

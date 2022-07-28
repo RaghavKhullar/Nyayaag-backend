@@ -6,6 +6,10 @@ const AuthSchema: Schema = new Schema({
         type: String,
         required:true,
     },
+    sessionId: {
+        type: String,
+        default: undefined
+    },
     password: {
         type: String,
         required:true,

@@ -1,6 +1,5 @@
 import { Handler } from 'express';
-// import IStudent from '../../models/student/InterfaceStudent';
-import Student from '../../models/student/student';
+import Client from '../../models/client/clientRegister';
 import IAuth from '../../models/auth/InterfaceAuth';
 import Auth from '../../models/auth/authModel';
 import mongoose from 'mongoose';
@@ -31,31 +30,34 @@ const UpdateDetails: Handler = async (req, res) => {
                     message: "Please Verify your username to login!!",
                 })
             }
-            if (user.userType !== "student") {
+            if (user.userType !== "client") {
                 return res.status(404).json({
                     status: "FAILED",
                     message: "This user type isn't allowed to login!!",
                 })
             }
         }
-        const { studentName, nameOfCollege, RollNo, Course, CourseDuration, address, pincode } = req.body;
+        const { 
+            name,gender,emailAddress,phoneNo,address,pincode,
+         } = req.body;
         console.log(user);
-        const student = await Student.findOne({ user: user._id });
-        console.log(student)
-        if (student === null) {
-            const newStudent = {
+        const client = await Client.findOne({ user: user._id });
+        console.log(client)
+        if (client === null) {
+            const newClient = {
                 user: user._id,
-                studentName: studentName,
-                nameOfCollege: nameOfCollege,
-                RollNo: RollNo,
-                Course: Course,
-                CourseDuration: CourseDuration,
-                address: address,
-                pincode: pincode
+                personalDetails: {
+                    name:name ,
+                    gender: gender,
+                    emailAddress:emailAddress ,
+                    phoneNo:phoneNo ,
+                    address: address,
+                    pincode: pincode
+                },
             }
-            console.log(newStudent)
-            await Student
-                .create(newStudent)
+            console.log(newClient)
+            await Client
+                .create(newClient)
                 .then(() => {
                     return res.status(200).json({
                         status: "SUCCESSFUL",
@@ -69,15 +71,17 @@ const UpdateDetails: Handler = async (req, res) => {
                     })
                 });
         } else {
-            await Student.updateOne({ user: user._id }, {
+            await Client.updateOne({ user: user._id }, {
                 $set: {
-                    studentName: studentName,
-                    nameOfCollege: nameOfCollege,
-                    RollNo: RollNo,
-                    Course: Course,
-                    CourseDuration: CourseDuration,
+                    user: user._id,
+                    personalDetails: {
+                    name:name ,
+                    gender: gender,
+                    emailAddress:emailAddress ,
+                    phoneNo:phoneNo ,
                     address: address,
                     pincode: pincode
+                },
                 }
             });
         }

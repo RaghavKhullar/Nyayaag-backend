@@ -1,19 +1,16 @@
 import { Handler } from "express";
+import mongoose from "mongoose";
 import Advocate from "../../models/advocate/advocate";
 import Auth from "../../models/auth/authModel";
 import IAuth from "../../models/auth/InterfaceAuth";
 
 const AddClient: Handler = async (req, res) => {
   try {
-    if (req.session && !req.session.user) {
-      return res.status(404).json({
-        status: "FAILED",
-        message: "Please Login before entering!!",
-      });
-    }
-    const user: IAuth = await Auth.findOne({
-      _id: req.session.user || null,
-    }).lean();
+    const idString = req.body.userID.slice(1,req.body.userID.length-1);
+    console.log(idString);
+    const id = new mongoose.Types.ObjectId(idString)
+    console.log(id)
+    const user: IAuth = await Auth.findOne({ _id: id || null }).lean();
     if (!user) {
       return res.status(404).json({
         status: "FAILED",
@@ -53,7 +50,7 @@ const AddClient: Handler = async (req, res) => {
       contactNumber: contactNumber,
       address: address,
       IAdetails: IAdetails,
-      nextHearingDate: nextHearingDate,
+      nextHearingDate: new Date(nextHearingDate),
     };
     const advocate = await Advocate.findOne({
       user: user._id,
