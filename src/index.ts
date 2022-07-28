@@ -1,9 +1,13 @@
+import 'dotenv/config'
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import database from "./api/utils/db";
 import { ObjectId } from "mongodb";
 import morgan from "morgan";
+
+// dotenv.config({ path: __dirname + "/.env" });
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const session=require("express-session");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -12,7 +16,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 const app = express();
 app.use(cors());
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(express.json({ strict: false }));
@@ -24,13 +28,14 @@ declare module 'express-session' {
     user: ObjectId;
   }
 }
+
 app.use(
   session({
-    secret: "myNameisRaghav",
+    secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     store: new MongoDBStore({
-      uri:"mongodb://localhost:27017/nyayaag",
-      collection:"session",
+      uri:process.env.MONGODB_URI,
+      collection:process.env.COLLECTION_NAME,
     }),
     cookie: { maxAge: 1000 * 60 * 60 },
     resave: false,

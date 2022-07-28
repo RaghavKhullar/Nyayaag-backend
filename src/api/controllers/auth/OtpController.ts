@@ -14,7 +14,7 @@ const SendOtpVerificationEmail = async (username: string, res: any) => {
         console.log(username, success);
         const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
         const mailOptions = {
-          from: "nyayaag123@outlook.com",
+          from: process.env.EMAIL,
           to: username,
           subject: "verify your email",
           html: `<p>Enter <b>${otp}</b> in the app to verify your email address and complete the registration process </p><p>This code <b>expired in 1 hour</b>.</p>`,

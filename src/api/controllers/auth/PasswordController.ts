@@ -137,7 +137,7 @@ const ForgotPassword: Handler = async (req, res) => {
                 console.log(result);
                 // reset records deleted successfully
                 const mailOptions = {
-                  from: "nyayag2022@outlook.com",
+                  from: process.env.EMAIL,
                   to: username,
                   subject: "Password Reset",
                   html: `<p>click the link below to reset your password
